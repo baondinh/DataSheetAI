@@ -14,6 +14,9 @@ A user can type something like "show me all customers from California" and the s
  
 For this assignment, using Claude as Assistant/LLM Adapter
 
+# Update Architecture: 
+![alt text](docs/assets/claude_architecture.png)
+
 # Modules: 
 - cli
 - csv_loader
