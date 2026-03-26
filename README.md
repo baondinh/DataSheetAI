@@ -12,9 +12,12 @@ A user can type something like "show me all customers from California" and the s
 - System validates and safely executes the SQL on a SQLite database
 - Returns the results to the user
  
-For this assignment, using Claude as Assistant/LLM Adapter
+Notes: 
+- For this assignment, using Claude as Assistant/LLM Adapter 
+- Recall CRUD: Create, Read, Update, Delete
+- Use assistant to suggest project updates and code review
 
-# Update Architecture: 
+# Updated Architecture: 
 ![alt text](docs/assets/claude_architecture.png)
 
 # Modules: 
@@ -24,5 +27,3 @@ For this assignment, using Claude as Assistant/LLM Adapter
 - query_service
 - schema_manager
 - sql_validator 
-
-CRUD: Create, Read, Update, Delete
