@@ -17,7 +17,7 @@ import logging
 import pandas as pd
 from .exceptions import FileNotFoundError
 
-class CSVParser: 
+class DataParser: 
     def parse(self, 
               filepath: str, 
               logger: logging.Logger): 

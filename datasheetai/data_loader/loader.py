@@ -2,6 +2,6 @@
 
 import sqlite3
 
-class CSVLoader: 
+class DataLoader: 
     def __init__(): 
         return "Work in progress"

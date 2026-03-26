@@ -1,8 +1,8 @@
 # datasheetai/csv_loader/__init__.py
 
-from .loader import CSVLoader
+from .loader import DataLoader
 from .exceptions import (
-    CSVLoaderError,
+    DataLoaderError,
 )
 
 __all__ = [

@@ -22,7 +22,7 @@ Notes:
 
 # Modules: 
 - cli
-- csv_loader
+- data_loader
 - llm_adapter
 - query_service
 - schema_manager

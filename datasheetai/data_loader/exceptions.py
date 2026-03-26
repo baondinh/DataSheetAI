@@ -1,8 +1,8 @@
 # datasheetai/csv_loader/exceptions.py
 
-class CSVLoaderError(Exception): 
+class DataLoaderError(Exception): 
     """Base exception for csv_loader errors."""
     pass
 
-class FileNotFoundError(CSVLoaderError): 
+class FileNotFoundError(DataLoaderError): 
     pass
