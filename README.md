@@ -20,6 +20,7 @@ Notes:
 - Recall CRUD: Create, Read, Update, Delete
 - Use assistant to suggest project updates and code review
 - Test data obtained from Kaggle
+- Make sure to include GitHub actions
 
 # Updated Architecture: 
 ![alt text](docs/assets/claude_architecture.png)
