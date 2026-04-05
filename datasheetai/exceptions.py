@@ -21,6 +21,10 @@ class UnsupportedFileTypeError(DataLoaderError):
     """Raised when provided file has an unsupported extension."""
     pass
 
+class FileParseError(DataLoaderError): 
+    """Raised when an error occurs during file parsing."""
+    pass
+
 #---------------------
 # LLM Adapter
 #---------------------

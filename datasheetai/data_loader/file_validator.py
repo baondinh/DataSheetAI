@@ -2,7 +2,6 @@
 
 import logging
 from pathlib import Path
-import os
 
 from datasheetai.config import DataLoaderConfig
 from datasheetai.exceptions import FileNotFoundError, UnsupportedFileTypeError
