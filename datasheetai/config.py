@@ -14,14 +14,14 @@ logger = logging.getLogger(__name__)
 #---------------------
 # Database
 #---------------------
-class DatabaseConfig: 
-    """
-    Controls where SQLite .db lives
-    Used by: 
-        datasheetai/db/connection.py -> DatabaseConnection
-    """
-    path: str = "data/datasheetai.db"
-    echo: bool = False 
+# class DatabaseConfig: 
+#     """
+#     Controls where SQLite .db lives
+#     Used by: 
+#         datasheetai/db/connection.py -> DatabaseConnection
+#     """
+#     path: str = "data/datasheetai.db"
+#     echo: bool = False 
 
 #---------------------
 # Data Loder
@@ -35,8 +35,8 @@ class DataLoaderConfig:
         datasheetai/db/initializer.py -> DatabaseInitializer
 
     """
-    supported_extensions: list[str] = field(default_factory=lambda: [".csv"])
-    supported_types: Dict[str, str] = field(default_factory=lambda: {
+    # supported_extensions: list[str] = field(default_factory=lambda: [".csv"])
+    supported_extensions: Dict[str, str] = field(default_factory=lambda: {
         ".csv":     "csv",
         # ".json":    "json",
         # ".xlsx":    "excel",

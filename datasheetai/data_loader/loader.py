@@ -1,13 +1,17 @@
-# datasheetai/csv_loader/loader.py
+# datasheetai/data_loader/loader.py
 
+import logging
 import pandas as pd
 from datasheetai.config import DataLoaderConfig
+
+logger = logging.getLogger(__name__)
 
 class DataLoader: 
     def __init__(self, config: DataLoaderConfig) -> None: 
         self.config = config
 
     def load(self, file_path: str) -> pd.DataFrame: 
+        logger.info(f"Loading data from {file_path}")
         # Check file extension
         ext = file_path.split(".")[-1].lower()
         if f".{ext}" not in self.config.supported_extensions:

@@ -1,11 +1,9 @@
-# datasheetai/csv_loader/__init__.py
+# datasheetai/data_loader/__init__.py
 
 from .loader import DataLoader
-from .exceptions import (
-    DataLoaderError,
-)
+from datasheetai.exceptions import DataLoaderError
 
 __all__ = [
-    "CSVLoader",
-    "CSVLoaderError",
+    "DataLoader",
+    "DataLoaderError",
 ]

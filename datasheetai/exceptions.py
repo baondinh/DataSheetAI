@@ -3,44 +3,49 @@
 #---------------------
 # Base
 #---------------------
-class DatasheetAIError(Exception):
-    """Root exception."""
+class DataSheetAIError(Exception):
+    """Root exception for all DataSheetAI errors."""
 
 #---------------------
 # Data Loader
 #---------------------
-class DataLoaderError(DatasheetAIError): 
+class DataLoaderError(DataSheetAIError): 
     """Base exception for data_loader errors."""
     pass
 
 class FileNotFoundError(DataLoaderError): 
+    """Raised when a specified file cannot be found."""
+    pass
+
+class UnsupportedFileTypeError(DataLoaderError): 
+    """Raised when provided file has an unsupported extension."""
     pass
 
 #---------------------
 # LLM Adapter
 #---------------------
-class LLMAdapterError(DatasheetAIError): 
+class LLMAdapterError(DataSheetAIError): 
     """Base exception for llm_adapter errors."""
     pass
 
 #---------------------
 # Query Service
 #---------------------
-class QueryServiceError(DatasheetAIError): 
+class QueryServiceError(DataSheetAIError): 
     """Base exception for query_service errors."""
     pass
 
 #---------------------
 # SQL Validator
 #---------------------
-class SQLValidatorError(DatasheetAIError): 
+class SQLValidatorError(DataSheetAIError): 
     """Base exception for sql_validator errors."""
     pass
 
 #---------------------
 # CLI
 #---------------------
-class CLIError(Exception): 
+class CLIError(DataSheetAIError): 
     """Base exception for cli errors."""
     pass
 

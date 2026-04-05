@@ -1,4 +1,4 @@
-# datasheetai/csv_loader/parser.py
+# datasheetai/data_loader/parser.py
 
 '''
 Reading a provided CSV and inspecting data
@@ -15,7 +15,7 @@ Run basic queries using sqlite3 or DB browser.
 from typing import Any 
 import logging
 import pandas as pd
-from .exceptions import FileNotFoundError
+from datasheetai.exceptions import FileNotFoundError
 
 class DataParser: 
     def parse(self, 
@@ -24,6 +24,7 @@ class DataParser:
         df = pd.DataFrame()
         try: 
             df = pd.read_csv(filepath)
-            logger.info()
+            logger.info("Success: Data parsed.")
         except Exception as e: 
+            logger.error(f"Error: Unable to parse data from {filepath} - {e}")
             return "Work in progress"
