@@ -2,7 +2,7 @@
 
 import logging 
 from datetime import datetime
-from dataclasses import field
+from dataclasses import dataclass, field
 from typing import Literal, Dict
 from pathlib import Path 
 
@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 #---------------------
 # Database
 #---------------------
+@dataclass  
 class DatabaseConfig: 
     """
     Controls where SQLite .db lives
@@ -26,6 +27,7 @@ class DatabaseConfig:
 #---------------------
 # Data Loder
 #---------------------
+@dataclass
 class DataLoaderConfig: 
     """
     Controls how data files are parsed and written to database
@@ -51,6 +53,7 @@ class DataLoaderConfig:
 #---------------------
 # Schema Manager
 #---------------------
+@dataclass
 class SchemaManagerConfig: 
     """
     Controls how schema metadata is read and formatted before being passed to LLM
@@ -64,6 +67,7 @@ class SchemaManagerConfig:
 #---------------------
 # LLM 
 #---------------------
+# @dataclass
 # class LLMConfig: 
 #     """
 #     Controls LLM provider + model used to translate natural language to SQL
@@ -79,6 +83,7 @@ class SchemaManagerConfig:
 #---------------------
 # Query Service 
 #---------------------
+# @dataclass
 # class QueryServiceConfig: 
 #     """
 #     Control logic between CLI and LLM + database layers
@@ -102,7 +107,13 @@ class SchemaManagerConfig:
 #     level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
 #     file: str = f"logs/{datetime.now()}_datasheetai.log"
 #     max_bytes: int = 1_000_000
+@dataclass
 class LoggingConfig:
+    """
+    Controls logging and output file 
+    Used by: 
+        datasheetai/logging_config.py -> setup_logging()
+    """
     level: str = "DEBUG"
     log_dir: str = "logs"
     log_file: str = "datasheetai"
@@ -115,6 +126,7 @@ class LoggingConfig:
 #---------------------
 # AppConfig 
 #---------------------
+@dataclass
 class AppConfig: 
     """
     Root configuration object that CLI and tests instantiate directly
