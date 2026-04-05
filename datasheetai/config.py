@@ -7,21 +7,21 @@ from typing import Literal, Dict
 from pathlib import Path 
 
 import yaml
-# from datasheetai.logging_config import LoggingConfig
 
 logger = logging.getLogger(__name__)
 
 #---------------------
 # Database
 #---------------------
-# class DatabaseConfig: 
-#     """
-#     Controls where SQLite .db lives
-#     Used by: 
-#         datasheetai/db/connection.py -> DatabaseConnection
-#     """
-#     path: str = "data/datasheetai.db"
-#     echo: bool = False 
+class DatabaseConfig: 
+    """
+    Controls where SQLite .db lives
+    Used by: 
+        datasheetai/db/connection.py -> DatabaseConnection
+    """
+    path: str = "data/datasheetai.db"
+    echo: bool = False 
+    timeout: float = 30.0
 
 #---------------------
 # Data Loder
@@ -35,31 +35,31 @@ class DataLoaderConfig:
         datasheetai/db/initializer.py -> DatabaseInitializer
 
     """
+    default_encoding: str = "utf-8"
+    max_file_size_mb: int = 100
+    infer_headers: bool = True
+    data_dir: str = "data"
     # supported_extensions: list[str] = field(default_factory=lambda: [".csv"])
     supported_extensions: Dict[str, str] = field(default_factory=lambda: {
         ".csv":     "csv",
         # ".json":    "json",
         # ".xlsx":    "excel",
     })
-    default_encoding: str = "utf-8"
-    max_file_size_mb: int = 100
-    infer_headers: bool = True
-    data_dir: str = "data"
     infer_types: bool = True # if False, columns loaded as text
     skip_blank_rows: bool = True
 
 #---------------------
 # Schema Manager
 #---------------------
-# class SchemaManagerConfig: 
-#     """
-#     Controls how schema metadata is read and formatted before being passed to LLM
-#     Used by: 
-#         datasheetai/schema_manager/manager.py -> SchemaManager
-#         datasheetai/llm_adapter/adapter.py -> LLMAdapter
-#     """
-#     include_row_counts: bool = True # includes row count in schema count
-#     include_sample_rows: int = 3    # rows sent to LLM -> 0 to disable
+class SchemaManagerConfig: 
+    """
+    Controls how schema metadata is read and formatted before being passed to LLM
+    Used by: 
+        datasheetai/schema_manager/manager.py -> SchemaManager
+        datasheetai/llm_adapter/adapter.py -> LLMAdapter
+    """
+    include_row_counts: bool = True # includes row count in schema count
+    include_sample_rows: int = 0    # rows sent to LLM -> 0 to disable
 
 #---------------------
 # LLM 
@@ -122,8 +122,8 @@ class AppConfig:
     """
     logging:        LoggingConfig       = field(default_factory=LoggingConfig)
     data_loader:    DataLoaderConfig    = field(default_factory=DataLoaderConfig)
-    # database:       DatabaseConfig      =field()
-    # schema_manger:  SchemaManagerConfig =field()
+    database:       DatabaseConfig      = field(default_factory=DatabaseConfig)
+    schema_manger:  SchemaManagerConfig = field(default_factory=SchemaManagerConfig)
     # llm:            LLMConfig           =field()
     # query_service:  QueryServiceConfig  =field()
 
@@ -138,8 +138,8 @@ def load_config(config_path: str | Path = "config.yaml") -> AppConfig:
     app_config = AppConfig(
         logging=LoggingConfig(**config_dict.get("logging", {})),
         data_loader=DataLoaderConfig(**config_dict.get("data_loader", {})),
-        # database=DatabaseConfig(**config_dict.get("database", {})),
-        # schema_manger=SchemaManagerConfig(**config_dict.get("schema_manager", {})),
+        database=DatabaseConfig(**config_dict.get("database", {})),
+        schema_manger=SchemaManagerConfig(**config_dict.get("schema_manager", {})),
         # llm=LLMConfig(**config_dict.get("llm", {})),
         # query_service=QueryServiceConfig(**config_dict.get("query_service", {})),
     )

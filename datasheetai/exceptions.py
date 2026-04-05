@@ -26,6 +26,17 @@ class FileParseError(DataLoaderError):
     pass
 
 #---------------------
+# Schema Manager
+#---------------------
+class SchemaManagerError(DataSheetAIError): 
+    """Base exception for schema_manager errors."""
+    pass
+
+class SchemaReadError(SchemaManagerError): 
+    """Raised when an error occurs while reading schema metadata."""
+    pass
+
+#---------------------
 # LLM Adapter
 #---------------------
 class LLMAdapterError(DataSheetAIError): 

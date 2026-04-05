@@ -1,0 +1,24 @@
+logging:
+  level: DEBUG
+  log_dir: logs
+  log_file: datasheetai
+  max_bytes: 5242880
+  backup_count: 3
+
+data_loader:
+  default_encoding: utf-8
+  max_file_size_mb: 100
+  infer_headers: true
+  data_dir: data
+  supported_extensions:
+    .csv: csv
+    .json: json
+    .xlsx: excel
+  infer_types: true
+  skip_blank_rows: true
+
+database:
+  path: docs/data/datasheetai.db
+
+schema_manager:
+  include_row_counts: true

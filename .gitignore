@@ -1,5 +1,11 @@
 # Ignore __pycache__
 __pycache__
 
-# Ignore tests/fixtures
-tests/fixtures/
+# Ignore docs/data (data input)
+docs/data/
+
+# logs
+logs/
+
+# db
+db/
