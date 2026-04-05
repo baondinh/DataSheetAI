@@ -12,7 +12,7 @@ class FileValidator:
     def __init__(self, config: DataLoaderConfig) -> None: 
         self.config = config
 
-    def validate(self, file_path: str) -> bool: 
+    def validate(self, file_path: str) -> Path: 
         logger.info(f"Validating file: {file_path}")
 
         path = Path(file_path)
@@ -32,4 +32,4 @@ class FileValidator:
                 f"Supported extensions: {list(self.config.supported_extensions.keys())}"                
             )
 
-        return True
+        return path
