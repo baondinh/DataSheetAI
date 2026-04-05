@@ -32,6 +32,14 @@ class DatabaseError(DataSheetAIError):
     """Base exception for database errors."""
     pass
 
+class DatabaseTableCreationError(DatabaseError): 
+    """Raised when an error occurs during table creation."""
+    pass
+
+class DatabaseInsertionError(DatabaseError): 
+    """Raised when an error occurs during data insertion."""
+    pass
+
 class DatabaseConnectionError(DatabaseError): 
     """Raised when a connection to the database cannot be established."""
     pass

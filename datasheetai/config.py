@@ -19,7 +19,7 @@ class DatabaseConfig:
     Used by: 
         datasheetai/db/connection.py -> DatabaseConnection
     """
-    path: str = "data/datasheetai.db"
+    path: str = "datasheetai.db"
     echo: bool = False 
     timeout: float = 30.0
 

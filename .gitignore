@@ -7,5 +7,5 @@ docs/data/
 # logs
 logs/
 
-# db
-db/
+# database
+database/datasheetai.db

@@ -18,7 +18,8 @@ data_loader:
   skip_blank_rows: true
 
 database:
-  path: docs/data/datasheetai.db
+  path: datasheetai.db
+  timeout: 30
 
 schema_manager:
   include_row_counts: true
