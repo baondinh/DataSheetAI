@@ -26,6 +26,16 @@ class FileParseError(DataLoaderError):
     pass
 
 #---------------------
+# Database
+#---------------------
+class DatabaseError(DataSheetAIError): 
+    """Base exception for database errors."""
+    pass
+
+class DatabaseConnectionError(DatabaseError): 
+    """Raised when a connection to the database cannot be established."""
+    pass
+#---------------------
 # Schema Manager
 #---------------------
 class SchemaManagerError(DataSheetAIError): 
