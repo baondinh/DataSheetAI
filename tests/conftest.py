@@ -26,8 +26,11 @@ def empty_csv():
     return DOCS_DATA / "empty.csv"
 
 @pytest.fixture
-def invalid_file(): 
-    return DOCS_DATA / "invalid.txt"
+def invalid_file(tmp_path):
+    invalid_file = tmp_path / "invalid.txt"
+    invalid_file.write_bytes(b'\x89PNG\r\n\x1a\n\x00\x00')
+    return invalid_file  
+
 # @pytest.fixture
 # def sample_json(): 
 #     return DOCS_DATA / "sample_data.json"

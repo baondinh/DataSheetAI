@@ -1,1 +1,5 @@
 Some invalid txt file for testing
+Does not work as standalone text since pd.read_csv() silently succeeds with any text file
+
+tmp_path fixture used instead (defined in conftest.py)
+Wrote bytes to txt b'\x89PNG\r\n\x1a\n\x00\x00'

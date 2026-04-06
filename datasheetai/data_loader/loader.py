@@ -29,16 +29,20 @@ class DataLoader:
         if ext not in self.config.supported_extensions:
             raise UnsupportedFileTypeError(f"File type '{ext}' is not supported.")
 
-        if ext == ".csv":
-            logger.debug(f"Using CSV parser for file: {validated_path}")
-            df = self.parser.parse_csv(validated_path)
-        # elif ext == ".json":
-        #     logger.debug(f"Using JSON parser for file: {validated_path}")
-        #     df = self.parser.parse_json(validated_path)
-        # elif ext == ".xlsx":
-        #     logger.debug(f"Using Excel parser for file: {validated_path}")   
-        #     df = self.parser.parse_excel(validated_path)
-        else:
-            logger.error(f"Error: Unexpected error parsing {ext}")
-            raise UnsupportedFileTypeError(f"File type '{ext}' is not supported.")
-        return df
+        try: 
+            if ext == ".csv":
+                logger.debug(f"Using CSV parser for file: {validated_path}")
+                df = self.parser.parse_csv(validated_path)
+            # elif ext == ".json":
+            #     logger.debug(f"Using JSON parser for file: {validated_path}")
+            #     df = self.parser.parse_json(validated_path)
+            # elif ext == ".xlsx":
+            #     logger.debug(f"Using Excel parser for file: {validated_path}")   
+            #     df = self.parser.parse_excel(validated_path)
+            else:
+                logger.error(f"Error: Unexpected error parsing {ext}")
+                raise UnsupportedFileTypeError(f"File type '{ext}' is not supported.")
+            return df
+        except Exception as e:
+            logger.error(f"Error: Could not load {validated_path} - {e}")
+            raise e
