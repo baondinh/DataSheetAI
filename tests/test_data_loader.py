@@ -6,11 +6,11 @@ from pathlib import Path
 
 from datasheetai.data_loader.file_validator import FileValidator
 from datasheetai.data_loader.parser import DataParser
+from datasheetai.data_loader.loader import DataLoader
 from datasheetai.exceptions import (
     FileNotFoundError,
     UnsupportedFileTypeError, 
     FileTooLargeError, 
-    InvalidFileError, 
     FileParseError
 )
 class TestDataLoaderValidator:
@@ -52,16 +52,20 @@ class TestDataLoaderParser:
         assert not df.empty
         pd.testing.assert_frame_equal(df, sample_df)
 
+    # .txt is not invalid in itself, fixture updated to write byte to temp file make pd.read_csv() fail
     def test_parse_invalid_file(self, data_loader_config, invalid_file):
         parser = DataParser(data_loader_config)
         with pytest.raises(FileParseError):
             parser.parse_csv(invalid_file)
 
-# def config(): 
-#     return DataLoaderConfig()
+class TestDataLoader:
+    def test_load_valid_csv(self, data_loader_config, sample_csv):
+        loader = DataLoader(data_loader_config)
+        df = loader.load(str(sample_csv))
+        assert not df.empty
+        assert isinstance(df, pd.DataFrame)
 
-# def test_load_file(): 
-#     config = DataLoaderConfig()
-#     validator = FileValidator(config)
-#     validator.validate("data/sample_data.csv")
-#     assert True
+    def test_load_unsupported_file(self, data_loader_config, invalid_file):
+        loader = DataLoader(data_loader_config)
+        with pytest.raises(UnsupportedFileTypeError):
+            loader.load(str(invalid_file))

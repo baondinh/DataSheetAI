@@ -1,16 +1,5 @@
 # datasheetai/data_loader/parser.py
 
-'''
-Reading a provided CSV and inspecting data
-Cannot use df.to_sql() -> Must implement schema creation and data insertion logic independently
-
-Activities:
-Manually create a table in SQLite.
-Use pandas.read_csv() to load data.
-Insert data into  SQLite
-Run basic queries using sqlite3 or DB browser.
-
-'''
 import logging
 import pandas as pd
 
