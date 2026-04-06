@@ -21,6 +21,14 @@ class UnsupportedFileTypeError(DataLoaderError):
     """Raised when provided file has an unsupported extension."""
     pass
 
+class FileTooLargeError(DataLoaderError): 
+    """Raised when provided file exceeds maximum allowed size."""
+    pass
+
+class InvalidFileError(DataLoaderError): 
+    """Raised when provided file is invalid or cannot be parsed."""
+    pass
+
 class FileParseError(DataLoaderError): 
     """Raised when an error occurs during file parsing."""
     pass

@@ -1,3 +1,5 @@
+# tests/test_config.py
+
 from datasheetai.config import AppConfig, DataLoaderConfig
 
 class TestAppConfig: 

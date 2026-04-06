@@ -31,3 +31,6 @@ jobs:
 
     - name: Run config tests 
       run: python -m pytest tests/test_config.py -v
+
+    - name: Run data loader tests 
+      run: python -m pytest tests/test_data_loader.py -v

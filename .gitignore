@@ -11,8 +11,11 @@ env/
 *.egg
 .eggs/
 
-# Ignore docs/data (data input)
-docs/data/
+# Ignore docs/data (data input but include test files)
+docs/data/*
+!docs/data/empty.csv
+!docs/data/invalid.txt
+!docs/data/sample.csv
 
 # logs
 logs/
