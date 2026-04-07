@@ -34,3 +34,6 @@ jobs:
 
     - name: Run data loader tests 
       run: python -m pytest tests/test_data_loader.py -v
+
+    - name: Run schema manager tests 
+      run: python -m pytest tests/test_schema_manager.py -v
