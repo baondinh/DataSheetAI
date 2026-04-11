@@ -2,7 +2,13 @@
 
 import pytest 
 from pathlib import Path
-from datasheetai.config import AppConfig, DataLoaderConfig
+from datasheetai.config import (
+    AppConfig, 
+    DataLoaderConfig, 
+    SchemaManagerConfig, 
+    DatabaseConfig
+)
+
 
 # Fixture path
 DOCS_DATA = Path(__file__).parent.parent / "docs" / "data"
@@ -15,6 +21,14 @@ def app_config():
 @pytest.fixture
 def data_loader_config(): 
     return DataLoaderConfig()
+
+@pytest.fixture
+def schema_manager_config(): 
+    return SchemaManagerConfig()
+
+@pytest.fixture
+def database_manager_config(): 
+    return DatabaseManagerConfig()
 
 # sample file fixtures (TODO: these files are currently gitignored but should be added back in for testing purposes)
 @pytest.fixture

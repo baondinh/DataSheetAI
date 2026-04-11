@@ -98,15 +98,6 @@ class SchemaManagerConfig:
 #---------------------
 # Logging 
 #---------------------
-# class LoggingConfig: 
-#     """
-#     Controls logging and output file 
-#     Used by: 
-#         datasheetai/logging_config.py -> setup_logging()
-#     """
-#     level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
-#     file: str = f"logs/{datetime.now()}_datasheetai.log"
-#     max_bytes: int = 1_000_000
 @dataclass
 class LoggingConfig:
     """
