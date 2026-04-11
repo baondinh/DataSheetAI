@@ -22,24 +22,27 @@ def ingest_file(path: str,
 
     # 2) SchemaManager handles schema inference and database schema reading
     sch_manager = SchemaManager(config.schema_manager) # var name needs to be different from config var
-    incoming = sch_manager.infer(df, table_name)
+    incoming = sch_manager.translate_schema(df=df, table_name=table_name)
 
+    # 3) DatabaseManager handles database interactions (checking table existence, creating tables, inserting data)
     with DatabaseManager(config.database) as db:   # owns the connection
-        if not db.table_exists(table_name):
-            db.create_table(incoming)
-            rows = db.insert_dataframe(df, incoming)
-            return _result("created", table_name, rows)
+        db.connect() # connection is established here
+        db.close()   # connection is closed here
+        # if not db.table_exists(table_name):
+        #     db.create_table(incoming)
+        #     rows = db.insert_dataframe(df, incoming)
+        #     return _result("created", table_name, rows)
 
-        existing = schema_manager.read_from_db(db.connection, table_name)
+    #     existing = schema_manager.read_from_db(db.connection, table_name)
 
-        if incoming.matches(existing):
-            rows = db.insert_dataframe(df, existing)
-            return _result("appended", table_name, rows)
+    #     if incoming.matches(existing):
+    #         rows = db.insert_dataframe(df, existing)
+    #         return _result("appended", table_name, rows)
 
-        if overwrite:
-            db.drop_table(table_name)
-            db.create_table(incoming)
-            rows = db.insert_dataframe(df, incoming)
-            return _result("overwritten", table_name, rows)
+    #     if overwrite:
+    #         db.drop_table(table_name)
+    #         db.create_table(incoming)
+    #         rows = db.insert_dataframe(df, incoming)
+    #         return _result("overwritten", table_name, rows)
 
-        schema_manager.assert_compatible(incoming, existing)
+    #     schema_manager.assert_compatible(incoming, existing)
