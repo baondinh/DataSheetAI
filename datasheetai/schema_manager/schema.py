@@ -7,6 +7,7 @@ from typing import List
 class ColumnSchema: 
     column_name: str
     sqlite_dtype: str
+    nullable: bool = True
     
 @dataclass
 class TableSchema: 
@@ -22,3 +23,14 @@ class TableSchema:
     
     def column_names(self) -> List[str]: 
         return [column.column_name for column in self.columns]
+    
+    def matches(self, other: 'TableSchema') -> bool:
+        # check length of columns for quick mismatch
+        if len(self.columns) != len(other.columns):
+            return False
+        # check column names and types
+        for col1, col2 in zip(self.columns, other.columns):
+            if ((col1.column_name != col2.column_name) or 
+                (col1.sqlite_dtype != col2.sqlite_dtype)):
+                return False
+        return True

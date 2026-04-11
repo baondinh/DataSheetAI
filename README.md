@@ -46,6 +46,10 @@ Notes:
 - Update schema manager and database as needed
 ## 2. Schema Manager / Database 
 - Schema manager accessed by both query and ingestion flows
+- There are several scenarios that can arise when data loader interacts with schema manager / database
+- If table does not exist, create new table
+- TODO: Overwrite flag from user to drop + recreate a table
+- TODO: If schema match (same column + types) append rows to existing schema
 ## 3. Query Service
 - Send query to LLM to convert to SQL
 - Include instructions that prevent database updates
