@@ -58,3 +58,8 @@ Notes:
 - Ensure LLM does not return any SQL that would alter database
 ## 5. CLI Wrapper
 - Handle all module intersection with CLI commands
+
+# Overview Video
+<p align="center">
+  <video src="https://www.youtube.com/@BaoDinhBU" width="100%" controls></video>
+</p>
