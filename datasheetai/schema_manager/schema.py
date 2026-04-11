@@ -7,7 +7,6 @@ from typing import List
 class ColumnSchema: 
     column_name: str
     sqlite_dtype: str
-    nullable: bool = True
     
 @dataclass
 class TableSchema: 

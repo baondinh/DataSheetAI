@@ -58,6 +58,10 @@ class SchemaReadError(SchemaManagerError):
     """Raised when an error occurs while reading schema metadata."""
     pass
 
+class SchemaTranslationError(SchemaManagerError): 
+    """Raised when an error occurs during schema translation."""
+    pass
+
 #---------------------
 # LLM Adapter
 #---------------------
