@@ -13,6 +13,6 @@ from datasheetai.exceptions import (
 )
 
 class TestSchemaManager:
-    def test_schema_manager_initialization(self):
-        manager = SchemaManager()
+    def test_schema_manager_initialization(self, schema_manager_config):
+        manager = SchemaManager(schema_manager_config)
         assert manager.schema is None # hardcoded to None for testing

@@ -28,7 +28,7 @@ def schema_manager_config():
 
 @pytest.fixture
 def database_manager_config(): 
-    return DatabaseManagerConfig()
+    return DatabaseConfig()
 
 # sample file fixtures (TODO: these files are currently gitignored but should be added back in for testing purposes)
 @pytest.fixture
