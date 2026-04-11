@@ -56,3 +56,5 @@ Notes:
 ## 4. SQL Validator 
 - How to handle SQL injections?
 - Ensure LLM does not return any SQL that would alter database
+## 5. CLI Wrapper
+- Handle all module intersection with CLI commands
