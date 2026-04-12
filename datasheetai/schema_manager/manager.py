@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 class SchemaManager:
     def __init__(self, config: SchemaManagerConfig) -> None:
         self.config = config
+        self.schema = None # type: TableSchema
         self.translator = SchemaTranslator() # This object only has one function handling translation logic and does not need config
 
     def translate_schema(self, df: pd.DataFrame, table_name: str) -> TableSchema:
