@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 # }
 
 class SchemaTranslator:
+    # def __init__(self, config):
+    #     self.config = config
+    #     pass
+
     def translate(self, df: pd.DataFrame, table_name: str) -> TableSchema:
         # Check for empty df 
         if df.empty:
