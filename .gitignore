@@ -21,7 +21,7 @@ docs/data/*
 logs/
 
 # database
-database/datasheetai.db
+*.db
 
 # Ignore LLM 
 .claude
