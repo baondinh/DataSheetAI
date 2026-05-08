@@ -1,10 +1,9 @@
 # datasheetai/config.py
 
-import logging 
-from datetime import datetime
+import logging
 from dataclasses import dataclass, field
 from typing import Literal, Dict
-from pathlib import Path 
+from pathlib import Path
 
 import yaml
 
@@ -13,29 +12,27 @@ logger = logging.getLogger(__name__)
 #---------------------
 # Database
 #---------------------
-@dataclass  
-class DatabaseConfig: 
+@dataclass
+class DatabaseConfig:
     """
     Controls where SQLite .db lives
-    Used by: 
-        datasheetai/db/connection.py -> DatabaseConnection
+    Used by:
+        datasheetai/database/database_manager.py -> DatabaseManager
     """
     path: str = "datasheetai.db"
     echo: bool = False 
     timeout: float = 30.0
 
 #---------------------
-# Data Loder
+# Data Loader
 #---------------------
 @dataclass
-class DataLoaderConfig: 
+class DataLoaderConfig:
     """
     Controls how data files are parsed and written to database
-    Used by: 
+    Used by:
         datasheetai/data_loader/loader.py -> DataLoader
-        datasheetai/data_loader/parser.py -> Parser
-        datasheetai/db/initializer.py -> DatabaseInitializer
-
+        datasheetai/data_loader/parser.py -> DataParser
     """
     default_encoding: str = "utf-8"
     max_file_size_mb: int = 100
@@ -84,12 +81,12 @@ class LLMConfig:
 # Query Service 
 #---------------------
 @dataclass
-class QueryServiceConfig: 
+class QueryServiceConfig:
     """
-    Control logic between CLI and LLM + database layers
-    Used by: 
-        datasheetai/query_service/service.py -> QueryService
-        datasheetai/validator/sql_validator.py -> SQLValidator
+    Controls logic between CLI and LLM + database layers
+    Used by:
+        datasheetai/query_service/query_service.py -> QueryService
+        datasheetai/sql_validator/validator.py -> SQLValidator
     """
     max_retries: int = 2
     allow_write_queries: bool = False # Should not be able to INSERT/UPDATE/DROP
