@@ -126,10 +126,11 @@ class AppConfig:
     logging:        LoggingConfig       = field(default_factory=LoggingConfig)
     data_loader:    DataLoaderConfig    = field(default_factory=DataLoaderConfig)
     database:       DatabaseConfig      = field(default_factory=DatabaseConfig)
-    schema_manger:  SchemaManagerConfig = field(default_factory=SchemaManagerConfig)
+    schema_manager:  SchemaManagerConfig = field(default_factory=SchemaManagerConfig)
     # llm:            LLMConfig           =field()
     # query_service:  QueryServiceConfig  =field()
 
+# CLI should call load_config() instead of any module directly
 def load_config(config_path: str | Path = "config.yaml") -> AppConfig:
     """
     Load config from YAML file and return AppConfig object

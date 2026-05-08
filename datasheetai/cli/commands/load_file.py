@@ -27,7 +27,7 @@ def ingest_file(path: str,
     # 3) DatabaseManager handles database interactions (checking table existence, creating tables, inserting data)
     with DatabaseManager(config.database) as db:   # owns the connection
         db.connect() # connection is established here
-        db.close()   # connection is closed here
+        db.disconnect()   # connection is disconnected here
         # if not db.table_exists(table_name):
         #     db.create_table(incoming)
         #     rows = db.insert_dataframe(df, incoming)

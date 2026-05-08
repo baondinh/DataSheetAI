@@ -22,3 +22,6 @@ logs/
 
 # database
 database/datasheetai.db
+
+# Ignore LLM 
+.claude

@@ -20,7 +20,15 @@ class DatabaseManager:
 
     def __init__(self, config: DatabaseConfig):
         self.config = config
-        self.connection = sqlite3.Connection | None = None
+        self.connection: sqlite3.Connection | None = None
+
+    def __enter__(self):
+        self.connect()
+        return self
+    
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        self.disconnect()
+        return False 
 
     # Connection management
     def connect(self) -> None:

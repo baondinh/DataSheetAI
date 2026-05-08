@@ -35,7 +35,9 @@ class SchemaManager:
         try:
             schema_info = connection.execute(f"PRAGMA table_info({table_name})").fetchall()
             columns = []
-            for column_name, sqlite_dtype in schema_info:
+            for row in schema_info: 
+                column_name = row[1] # second column is name
+                sqlite_dtype = row[2] # third column is type
                 columns.append(ColumnSchema(
                     column_name=column_name, 
                     sqlite_dtype=sqlite_dtype
