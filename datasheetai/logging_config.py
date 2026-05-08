@@ -3,15 +3,6 @@ import logging.handlers
 from datetime import datetime
 from pathlib import Path
 
-# moved to config file
-# class LoggingConfig:
-#     level: str = "DEBUG"
-#     log_dir: str = "logs"
-#     log_file: str = f"datasheetai_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-#     max_bytes: int = 5_242_880  # 5 MB
-#     backup_count: int = 3
-#     format: str = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
-#     date_format: str = "%Y-%m-%d %H:%M:%S"
 from datasheetai.config import LoggingConfig
 
 def setup_logging(config: LoggingConfig) -> None:
