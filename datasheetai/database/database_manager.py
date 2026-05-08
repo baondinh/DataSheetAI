@@ -3,7 +3,6 @@
 import logging
 import sqlite3
 import pandas as pd
-from pathlib import Path
 
 from datasheetai.config import DatabaseConfig
 from datasheetai.schema_manager.schema import TableSchema
