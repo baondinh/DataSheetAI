@@ -1,65 +1,119 @@
 # DataSheetAI
-EC530 DataSheetAI Project
 
-Due Date: 4/5/26 (make sure to record video of project features)
-Extension: 4/10/26
+DataSheetAI is a natural language SQL query system implemented as a Python CLI tool. The system translates a natural language query to SQL using Claude. The system also ensures that SQL returned from the LLM is a SELECT statement to prevent accidental changes to the SQLite database. 
 
-Objective: Design a natural language SQL query system that implements a CLI tool with two independent flows:
-- Data ingestion 
-- Query processing
+## Architecture
 
-Query Processing: 
-A user can type something like "show me all customers from California" and the system:
-- Sends that question to an LLM (Claude or OpenAI)
-- LLM translates it to SQL
-- System validates and safely executes the SQL on a SQLite database
-- Returns the results to the user
- 
-Notes: 
-- For this assignment, using Claude as Assistant/LLM Adapter 
-- Recall CRUD: Create, Read, Update, Delete
-- Use assistant to suggest project updates and code review
-- Test data obtained from Kaggle
-- Make sure to include GitHub actions
+DataSheetAI is broken up into multiple modules that are organized into two independent flows sharing a SQLite database:
 
-# Updated Architecture: 
-![alt text](docs/assets/claude_architecture.png)
+```
+Flow 1 — Ingestion
+  CLI → DataLoader → SchemaManager → DatabaseManager → SQLite
 
-# Modules: 
-- cli
-- data_loader
-- llm_adapter
-- query_service
-- schema_manager
-- sql_validator 
+Flow 2 — Query
+  CLI → QueryService → LLMAdapter (Claude API) → SQLValidator → DatabaseManager → SQLite
+```
 
-# Development Plan: 
-## 0. Config + Logger
-- Attempt to setup config file for best practices (helps prevent hardcoding sensitive information like API keys)
-- Can be updated as each module is developed
-- Setup single root logger for all modules to use to help with debugging
-## 1. Data Loader
-- For this project can use pandas to read CSV files but keep in mind other file types
-- Confirm file type
-- Verify there is data
-- Clean data (data types, handle NA, etc.)
-- Update schema manager and database as needed
-## 2. Schema Manager / Database 
-- Schema manager accessed by both query and ingestion flows
-- There are several scenarios that can arise when data loader interacts with schema manager / database
-- If table does not exist, create new table
-- TODO: Overwrite flag from user to drop + recreate a table
-- TODO: If schema match (same column + types) append rows to existing schema
-## 3. Query Service
-- Send query to LLM to convert to SQL
-- Include instructions that prevent database updates
-## 4. SQL Validator 
-- How to handle SQL injections?
-- Ensure LLM does not return any SQL that would alter database
-## 5. CLI Wrapper
-- Handle all module intersection with CLI commands
+![Architecture diagram](docs/assets/claude_architecture.png)
 
-# Overview Video
-<p align="center">
-  <video src="https://www.youtube.com/@BaoDinhBU" width="100%" controls></video>
-</p>
+## Setup
+
+DataSheetAI uses a `pyproject.toml` project configuration to simplify dependency management and project setup.
+
+**Requirements:** Python 3.11+
+
+```bash
+# Install the package and all dependencies
+pip install -e ".[dev]"
+```
+
+### API Key
+
+Querying (Flow 2) requires an Anthropic API key to be set up as an environment variable.
+Important: Never store or hard code key in config files or source code
+`ANTHROPIC_API_KEY` environment variable name is referenced in `config.yaml`
+
+```powershell
+# PowerShell — current session
+$env:ANTHROPIC_API_KEY = "sk-ant-..."
+
+# PowerShell — persist across sessions (add to your profile)
+notepad $PROFILE
+# Add: $env:ANTHROPIC_API_KEY = "sk-ant-..."
+```
+
+```bash
+# bash / zsh
+export ANTHROPIC_API_KEY="sk-ant-..."
+```
+
+## Usage
+
+### Flow 1 — Ingestion
+
+```python
+from datasheetai.config import load_config
+from datasheetai.cli.commands.load_file import ingest_file
+
+config = load_config("config.yaml")
+result = ingest_file("data/employees.csv", table_name="employees", config=config)
+# {"status": "created", "table": "employees", "rows": 42}
+```
+
+Use `overwrite=True` to replace an existing table with a different schema:
+
+```python
+result = ingest_file("data/employees_v2.csv", "employees", config, overwrite=True)
+# {"status": "overwritten", "table": "employees", "rows": 45}
+```
+
+### Flow 2 — Query
+
+```python
+from datasheetai.config import load_config
+from datasheetai.query_service import QueryService
+
+config = load_config("config.yaml")
+svc = QueryService(config)
+
+results = svc.execute("Show all employees earning more than 80000")
+# [{"id": 1, "name": "Alice", "salary": 90000.0}, ...]
+```
+
+## Modules
+
+| Module | Responsibility |
+|---|---|
+| `config` | YAML → typed dataclasses; single `AppConfig` root object |
+| `data_loader` | File validation, CSV/JSON/Excel parsing → DataFrame |
+| `schema_manager` | DataFrame dtype → SQLite schema inference; reads live DB schema |
+| `database` | SQLite CRUD: connect, create table, insert, query, drop |
+| `llm_adapter` | Schema-aware prompt + Anthropic API call → raw SQL |
+| `sql_validator` | Rejects non-SELECT and dangerous keywords before execution |
+| `query_service` | Orchestrates Flow 2 end-to-end |
+| `cli` | Entry points for both flows |
+
+## Running Tests
+
+GitHub actions setup to automatically run all tests under `tests/` folder whenever there is a new commit.
+Note: Tests mimic Anthropic API and do not require API key to run. 
+
+```bash
+python -m pytest tests/ -v
+```
+
+## Configuration
+
+Edit `config.yaml` to change defaults:
+
+```yaml
+llm:
+  model: claude-sonnet-4-6   # Anthropic model
+  max_tokens: 1000
+
+query_service:
+  max_rows_returned: 200     # cap on results returned
+
+database:
+  path: datasheetai.db       # SQLite file location
+```
