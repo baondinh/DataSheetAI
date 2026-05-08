@@ -23,3 +23,15 @@ database:
 
 schema_manager:
   include_row_counts: true
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-4-6
+  max_tokens: 1000
+  timeout_seconds: 30
+  api_key_env_var: ANTHROPIC_API_KEY
+
+query_service:
+  max_retries: 2
+  allow_write_queries: false
+  max_rows_returned: 200

@@ -75,8 +75,8 @@ class LLMConfig:
         datasheetai/llm_adapter/adapter.py -> LLMAdapter
     """
     provider: Literal["anthropic", "openai"] = "anthropic"
-    model: str = "claude-sonnet-4-20250514"
-    max_takens: int = 1000
+    model: str = "claude-sonnet-4-6"
+    max_tokens: int = 1000
     timeout_seconds: int = 30
     api_key_env_var: str = "ANTHROPIC_API_KEY"
 
@@ -143,7 +143,7 @@ def load_config(config_path: str | Path = "config.yaml") -> AppConfig:
         logging=LoggingConfig(**config_dict.get("logging", {})),
         data_loader=DataLoaderConfig(**config_dict.get("data_loader", {})),
         database=DatabaseConfig(**config_dict.get("database", {})),
-        schema_manger=SchemaManagerConfig(**config_dict.get("schema_manager", {})),
+        schema_manager=SchemaManagerConfig(**config_dict.get("schema_manager", {})),
         llm=LLMConfig(**config_dict.get("llm", {})),
         query_service=QueryServiceConfig(**config_dict.get("query_service", {})),
     )
