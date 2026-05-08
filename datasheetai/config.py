@@ -67,33 +67,33 @@ class SchemaManagerConfig:
 #---------------------
 # LLM 
 #---------------------
-# @dataclass
-# class LLMConfig: 
-#     """
-#     Controls LLM provider + model used to translate natural language to SQL
-#     Used by: 
-#         datasheetai/llm_adapter/adapter.py -> LLMAdapter
-#     """
-#     provider: Literal["anthropic", "openai"] = "anthropic"
-#     model: str = "claude-sonnet-4-20250514"
-#     max_takens: int = 1000
-#     timeout_seconds: int = 30
-#     api_key_env_var: str = "ANTHROPIC_API_KEY"
+@dataclass
+class LLMConfig: 
+    """
+    Controls LLM provider + model used to translate natural language to SQL
+    Used by: 
+        datasheetai/llm_adapter/adapter.py -> LLMAdapter
+    """
+    provider: Literal["anthropic", "openai"] = "anthropic"
+    model: str = "claude-sonnet-4-20250514"
+    max_takens: int = 1000
+    timeout_seconds: int = 30
+    api_key_env_var: str = "ANTHROPIC_API_KEY"
 
 #---------------------
 # Query Service 
 #---------------------
-# @dataclass
-# class QueryServiceConfig: 
-#     """
-#     Control logic between CLI and LLM + database layers
-#     Used by: 
-#         datasheetai/query_service/service.py -> QueryService
-#         datasheetai/validator/sql_validator.py -> SQLValidator
-#     """
-#     max_retries: int = 2
-#     allow_write_queries: bool = False # Should not be able to INSERT/UPDATE/DROP
-#     max_rows_returned: int = 200
+@dataclass
+class QueryServiceConfig: 
+    """
+    Control logic between CLI and LLM + database layers
+    Used by: 
+        datasheetai/query_service/service.py -> QueryService
+        datasheetai/validator/sql_validator.py -> SQLValidator
+    """
+    max_retries: int = 2
+    allow_write_queries: bool = False # Should not be able to INSERT/UPDATE/DROP
+    max_rows_returned: int = 200
 
 #---------------------
 # Logging 
@@ -126,9 +126,9 @@ class AppConfig:
     logging:        LoggingConfig       = field(default_factory=LoggingConfig)
     data_loader:    DataLoaderConfig    = field(default_factory=DataLoaderConfig)
     database:       DatabaseConfig      = field(default_factory=DatabaseConfig)
-    schema_manager:  SchemaManagerConfig = field(default_factory=SchemaManagerConfig)
-    # llm:            LLMConfig           =field()
-    # query_service:  QueryServiceConfig  =field()
+    schema_manager: SchemaManagerConfig = field(default_factory=SchemaManagerConfig)
+    llm:            LLMConfig           = field(default_factory=LLMConfig)
+    query_service:  QueryServiceConfig  = field(default_factory=QueryServiceConfig)
 
 # CLI should call load_config() instead of any module directly
 def load_config(config_path: str | Path = "config.yaml") -> AppConfig:
@@ -144,8 +144,8 @@ def load_config(config_path: str | Path = "config.yaml") -> AppConfig:
         data_loader=DataLoaderConfig(**config_dict.get("data_loader", {})),
         database=DatabaseConfig(**config_dict.get("database", {})),
         schema_manger=SchemaManagerConfig(**config_dict.get("schema_manager", {})),
-        # llm=LLMConfig(**config_dict.get("llm", {})),
-        # query_service=QueryServiceConfig(**config_dict.get("query_service", {})),
+        llm=LLMConfig(**config_dict.get("llm", {})),
+        query_service=QueryServiceConfig(**config_dict.get("query_service", {})),
     )
 
     logger.debug(f"Loaded config: {app_config}")
