@@ -6,6 +6,7 @@ import pandas as pd
 from pathlib import Path
 
 from datasheetai.config import DatabaseConfig
+from datasheetai.schema_manager.schema import TableSchema
 from datasheetai.exceptions import DatabaseTableCreationError, DatabaseInsertionError, DatabaseConnectionError
 
 logger = logging.getLogger(__name__)
@@ -65,23 +66,56 @@ class DatabaseManager:
         logger.debug(f"Retrieved table names: {tables}")
         return tables
 
-    def create_table(self, table_name: str, columns: dict) -> None:
-        """Creates a new table in the database with the specified columns."""
-        try:
-            column_defs = ", ".join([f"{col} {dtype}" for col, dtype in columns.items()])
-            create_stmt = f"CREATE TABLE IF NOT EXISTS {table_name} ({column_defs});"
-            self.connection.execute(create_stmt)
-            self.connection.commit()
-            logger.debug(f"Success: Table '{table_name}' created with columns [{', '.join(columns.keys())}]")
-        except sqlite3.Error as e:
-            logger.error(f"Error: Table creation error for '{table_name}' - {e}")
-            raise DatabaseTableCreationError(f"Could not create table '{table_name}' - {e}")
+    def table_exists(self, table_name: str) -> bool:
+        """Returns True if a table with the given name exists in the database."""
+        conn = self.check_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?;",
+            (table_name,),
+        )
+        return cursor.fetchone() is not None
 
-    def insert_data(self, table_name: str, data: pd.DataFrame):
-        """Inserts data from a DataFrame into the specified table."""
+    def create_table(self, schema: TableSchema) -> None:
+        """Creates a new table from a TableSchema. No-op if the table already exists."""
+        try:
+            self.connection.execute(schema.to_sql())
+            self.connection.commit()
+            logger.debug(f"Table '{schema.table_name}' created with columns {schema.column_names()}")
+        except sqlite3.Error as e:
+            logger.error(f"Error: Table creation error for '{schema.table_name}' - {e}")
+            raise DatabaseTableCreationError(f"Could not create table '{schema.table_name}' - {e}")
+
+    def drop_table(self, table_name: str) -> None:
+        """Drops a table from the database."""
+        try:
+            self.connection.execute(f"DROP TABLE IF EXISTS {table_name};")
+            self.connection.commit()
+            logger.debug(f"Table '{table_name}' dropped")
+        except sqlite3.Error as e:
+            logger.error(f"Error: Could not drop table '{table_name}' - {e}")
+            raise DatabaseTableCreationError(f"Could not drop table '{table_name}' - {e}")
+
+    def insert_data(self, table_name: str, data: pd.DataFrame) -> int:
+        """Inserts data from a DataFrame into the specified table. Returns row count inserted."""
         try:
             data.to_sql(table_name, self.connection, if_exists='append', index=False)
-            logger.debug(f"Success: Inserted {len(data)} rows into '{table_name}'")
+            logger.debug(f"Inserted {len(data)} rows into '{table_name}'")
+            return len(data)
         except Exception as e:
             logger.error(f"Error: Data insertion error for '{table_name}' - {e}")
             raise DatabaseInsertionError(f"Could not insert data into '{table_name}' - {e}")
+
+    def execute_query(self, sql: str) -> list[dict]:
+        """Executes a SELECT statement and returns results as a list of dicts."""
+        conn = self.check_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            columns = [desc[0] for desc in cursor.description]
+            rows = cursor.fetchall()
+            logger.debug(f"Query returned {len(rows)} rows")
+            return [dict(zip(columns, row)) for row in rows]
+        except sqlite3.Error as e:
+            logger.error(f"Error executing query - {e}")
+            raise DatabaseInsertionError(f"Query execution failed - {e}")
