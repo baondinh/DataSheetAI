@@ -26,8 +26,10 @@ class SchemaTranslator:
         try:
             columns = []
             for column_name, dtype in df.dtypes.items():
-                # TODO: improve type mapping logic
-                if pd.api.types.is_integer_dtype(dtype):
+                # Map pandas dtype to SQLite storage type
+                if pd.api.types.is_bool_dtype(dtype):
+                    sqlite_dtype = "INTEGER"  # SQLite has no BOOLEAN type -> stored as 0/1
+                elif pd.api.types.is_integer_dtype(dtype):
                     sqlite_dtype = "INTEGER"
                 elif pd.api.types.is_float_dtype(dtype):
                     sqlite_dtype = "REAL"
