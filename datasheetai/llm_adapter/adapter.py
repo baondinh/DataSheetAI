@@ -89,9 +89,10 @@ class LLMAdapter:
     def _build_schema_prompt(self, schemas: list[TableSchema]) -> str:
         schema_lines = []
         for table in schemas:
-            schema_lines.append(f"Table: {table.table_name}")
+            schema_lines.append(f'Table: "{table.table_name}"')
             for col in table.columns:
-                schema_lines.append(f"  - {col.column_name} ({col.sqlite_dtype})")
+                # Show quoted column names so LLM generates valid SQL for names with spaces or special characters
+                schema_lines.append(f'  - "{col.column_name}" ({col.sqlite_dtype})')
 
         schema_text = "\n".join(schema_lines)
 
