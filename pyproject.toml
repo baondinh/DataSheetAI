@@ -10,6 +10,7 @@ dependencies = [
     "pandas>=2.0.0",
     "pyyaml>=6.0.0",
     "openpyxl>=3.0.0",
+    "anthropic>=0.40.0",
 ]
 
 [project.optional-dependencies]
@@ -20,3 +21,9 @@ dev = [
 
 [tool.setuptools.packages.find]
 include = ["datasheetai*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
