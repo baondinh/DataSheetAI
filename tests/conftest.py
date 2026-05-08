@@ -53,7 +53,3 @@ def invalid_file(tmp_path):
 # @pytest.fixture
 # def sample_xlsx(): 
 #     return DOCS_DATA / "sample_data.xlsx"
-
-@pytest.fixture
-def validator():
-    return SQLValidator()
