@@ -19,6 +19,9 @@ dev = [
     "pytest-cov>=5.0.0",
 ]
 
+[project.scripts]
+datasheetai = "datasheetai.cli.main:main"
+
 [tool.setuptools.packages.find]
 include = ["datasheetai*"]
 
